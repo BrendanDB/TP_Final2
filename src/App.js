@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, Fragment } from "react";
+import CSS from "./App.css";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Register from "./places/Register/Register";
+import Login from "./places/Login/Login";
+import MainPage from "./places/MainPage/MainPage";
 
-function App() {
+const App = () => {
+  console.log("App");
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [token, setToken] = useState("");
+  const [adventurer, setAdventurer] = useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Routes>
+        <Route
+          path="/*"
+          element={
+            token ? <MainPage token={token} /> : <Login token={setToken} />
+          }
+        />
+        <Route
+          path="/login"
+          element={<Login token={setToken} adventurer={setAdventurer} />}
+        />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Fragment>
   );
-}
+};
 
 export default App;
